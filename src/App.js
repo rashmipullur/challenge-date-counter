@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function App() {
   return (
-    <div>
+    <div className="App">
       <Counter />
     </div>
   );
@@ -15,16 +15,34 @@ function Counter() {
   const date = new Date("jan 21 2027");
   date.setDate(date.getDate() + count);
 
+  function handleReset() {
+    setCount(0);
+    setStep(1);
+  }
+
   return (
     <div>
       <div>
-        <button onClick={() => setStep((c) => c - 1)}>-</button>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(+e.target.value)}
+        />
+        <span>{step}</span>
+
+        {/* <button onClick={() => setStep((c) => c - 1)}>-</button>
         <span>Step: {step}</span>
-        <button onClick={() => setStep((c) => c + 1)}>+</button>
+        <button onClick={() => setStep((c) => c + 1)}>+</button> */}
       </div>
       <div>
         <button onClick={() => setCount((c) => c - step)}>-</button>
-        <span>Count: {count}</span>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(+e.target.value)}
+        />
         <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
       <p>
@@ -37,6 +55,13 @@ function Counter() {
         </span>
         <span>{date.toDateString()}</span>
       </p>
+      {count !== 0 || step !== 1 ? (
+        <div>
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
